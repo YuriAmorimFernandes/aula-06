@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333; max-width: 600px; margin: 40px auto; padding: 20px; }
+        h1, h2 { color: #2c3e50; }
+        .form-container { display: flex; margin-bottom: 20px; }
+        input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
+        button { padding: 10px 15px; border: none; cursor: pointer; background-color: #3498db; color: white; border-radius: 0 4px 4px 0; }
+        button:hover { background-color: #2980b9; }
+        .btn-concluir { background-color: #2ecc71; border-radius: 4px; padding: 5px 10px; text-decoration: none; color: white; font-size: 0.9em; }
+        .btn-remover { background-color: #e74c3c; border-radius: 4px; padding: 5px 10px; text-decoration: none; color: white; font-size: 0.9em; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: white; margin-bottom: 10px; padding: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .acoes { display: flex; gap: 10px; }
+        .concluida-texto { text-decoration: line-through; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+    <h1>Minhas Tarefas</h1>
+
+    <form class="form-container" action="/adicionar" method="POST">
+        <input type="text" name="descricao" placeholder="Digite uma nova tarefa..." required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Pendentes</h2>
+    <ul>
+        {% for tarefa in pendentes %}
+        <li>
+            <span>{{ tarefa.descricao }}</span>
+            <div class="acoes">
+                <a href="/concluir/{{ tarefa.id }}" class="btn-concluir">Concluir</a>
+                <a href="/remover/{{ tarefa.id }}" class="btn-remover">Remover</a>
+            </div>
+        </li>
+        {% else %}
+        <li>Nenhuma tarefa pendente!</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Concluídas</h2>
+    <ul>
+        {% for tarefa in concluidas %}
+        <li>
+            <span class="concluida-texto">{{ tarefa.descricao }}</span>
+            <div class="acoes">
+                <a href="/remover/{{ tarefa.id }}" class="btn-remover">Remover</a>
+            </div>
+        </li>
+        {% else %}
+        <li>Nenhuma tarefa concluída ainda.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
